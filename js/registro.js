@@ -1,23 +1,10 @@
 $(document).ready(function () {
-    $("#btRegister").click(function () {
-        ingresaRegistro($("input[name='tipo']:checked").val(), $("#nombre").val(), $("#apellidos").val(), $("#email").val(), $("#password").val(), $("#empresa").val());
-    });
-});
-
-function ingresaRegistro(ptipo, pnombre, papellidos, pemail, ppassword, pempresa) {
-    try {
+    $('#btRegister').click(function() {
+        var datos=$('#registro').serialize();
         $.ajax({
-            data: {
-                $tipoUsuario: ptipo,
-                $nombreUsuario: pnombre,
-                $apellidosUsuario: papellidos,
-                $emailUsuarios: pemail,
-                $passUsuario: ppassword,
-                $empresaUsuario: pempresa,
-            },
+            data: datos,
             url: 'insertaRegistro.php',
             type: 'POST',
-            dataType: 'text',
             success: function (r) {
                 insercionRegistroExitosa(r);
             },
@@ -25,10 +12,9 @@ function ingresaRegistro(ptipo, pnombre, papellidos, pemail, ppassword, pempresa
                 insercionRegistroErronea(r);
             }
         });
-    } catch (err) {
-        alert(err);
-    }
-}
+        return false;
+    });
+});
 
 function insercionRegistroExitosa(TextoJson) {
     $("#pnlMensaje").dialog();

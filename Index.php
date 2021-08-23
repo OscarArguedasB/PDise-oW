@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="css/ICONO.JPG">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-
-
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -133,7 +133,7 @@
                 <h1>Registrarse</h1>
             </div>
             <div class="w3-container" id="formRegistro">
-                <form name="registro">
+                <form id="registro" method="POST">
                     <p>Complete todos los espacios para registrarse:</p>
                     <p><input type="radio" id="tipoEmpresa" name="tipo" value="1" required> Empresa
                         <input type="radio" id="tipoPersona" name="tipo" value="2" required> Persona</p>
@@ -148,8 +148,7 @@
                     <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Empresa" id="empresa"
                             name="empresa"></p>
                     <div>
-                        <p><button class="w3-button" id="btRegister" name="btRegister"
-                                type="submit">Registrarse</button></p>
+                        <p><button class="w3-button" id="btRegister">Registrarse</button></p>
                     </div>
                 </form>
                 <p id="pnlMensaje" name="pnlMensaje"></p>
@@ -167,8 +166,7 @@
         <i class="fa fa-linkedin w3-hover-opacity"></i>
         <p class="w3-medium"><b>DEV</b>SITE</p>
     </footer>
-    <script src="js/jquery-3.5.1.js"></script>
-    <script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    
     <script src="js/registro.js"></script>
 </body>
 
