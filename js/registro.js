@@ -17,7 +17,7 @@ function ingresaRegistro(ptipo, pnombre, papellidos, pemail, ppassword, pempresa
             },
             url: 'insertaRegistro.php',
             type: 'POST',
-            dataType: 'JSON',
+            dataType: 'text',
             success: function (r) {
                 insercionRegistroExitosa(r);
             },
