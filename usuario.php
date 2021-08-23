@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
-<title>Perfil</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="icon" href="css/ICONO.JPG">
+
+<head>
+    <title>Perfil</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="css/ICONO.JPG">
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
+</head>
 <style>
     body,
     h1,
@@ -25,11 +30,20 @@
     include 'conexion.php';
     $email =   $_REQUEST['email'];
     $name = usuario($email);
+    $acercaDe = acercaDe($email);
+
 
     function usuario($email)
     {
         $objetoConnect = new Connect();
         $sql = "SELECT concat(nombre,concat(' ',apellidos)) as nombre FROM usuario WHERE email='$email'";
+        $miQuery = $objetoConnect->ConsultaSQL($sql);
+        return $objetoConnect->devuelveUnDato($miQuery);
+    }
+    function acercaDe($email)
+    {
+        $objetoConnect = new Connect();
+        $sql = "SELECT acercaDe FROM usuario WHERE email='$email'";
         $miQuery = $objetoConnect->ConsultaSQL($sql);
         return $objetoConnect->devuelveUnDato($miQuery);
     }
@@ -53,7 +67,7 @@
             <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
                 <i class="fa fa-remove"></i>
             </a>
-            <img src="/w3images/avatar_g2.jpg" style="width:45%;" class="w3-round"><br><br>
+            <img src="profile/profile.png" style="width:45%;" class="w3-round"><br><br>
             <h4>
                 <?php echo "<b>$name</b>" ?>
             </h4>
@@ -83,7 +97,7 @@
 
         <!-- Header -->
         <header id="portfolio">
-            <a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
+            <a href="#"><img src="profile/profile.png" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
             <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
             <div class="w3-container">
                 <h1><b>Projects</b></h1>
@@ -106,7 +120,7 @@
                 $objetoConnect->imprimeTabla($miQuery);
                 echo "</div>";
             }
-            
+
             ?>
         </div>
 
@@ -115,7 +129,7 @@
         <!-- About me section -->
         <div class="w3-container w3-padding-large" style="margin-bottom:32px">
             <h4><b>About Me</b></h4>
-            <?php echo "<p></p>" ?>
+            <?php echo "<p>$acercaDe</p>" ?>
             <hr>
         </div>
 
@@ -127,29 +141,39 @@
                     <p><i class="fa fa-envelope w3-xxlarge w3-text-light-grey"></i></p>
                     <?php echo "<p>$email</p>" ?>
                 </div>
-                <!-- <div class="w3-third w3-dark-grey">
+                <div class="w3-third w3-dark-grey">
                     <p><i class="fa fa-phone w3-xxlarge w3-text-light-grey"></i></p>
-                    <?php echo "<p></p>" ?>
-                </div>  -->
+                    <?php 
+                    telefonos($email);
+
+                    function telefonos($email)
+                    {
+                        $objetoConnect = new Connect();
+                        $sql = "SELECT telefono FROM telefonos where usuario_email='$email'";
+                        $miQuery = $objetoConnect->ConsultaSQL($sql);
+                        $objetoConnect->imprimeTelefonos($miQuery);
+                    }
+                    ?>
+                </div>
             </div>
             <hr class="w3-opacity">
-            <form action="/send.php" target="_blank">
+            <form method="POST" id="msj">
                 <!-- NOTA -->
                 <div class="w3-section">
                     <label>To:</label>
-                    <input class="w3-input w3-border" type="text" id="To" name="To" value="<?php echo $email ?>" readonly>
+                    <input class="w3-input w3-border" type="text" id="to" name="to" value="<?php echo $email ?>" readonly>
                 </div>
                 <div class="w3-section">
                     <label>Name</label>
-                    <input class="w3-input w3-border" type="text" id="Name" name="Name" required>
+                    <input class="w3-input w3-border" type="text" id="name" name="name" required>
                 </div>
                 <div class="w3-section">
                     <label>From (email)</label>
-                    <input class="w3-input w3-border" type="text" id="From" name="From" required>
+                    <input class="w3-input w3-border" type="text" id="from" name="from" required>
                 </div>
                 <div class="w3-section">
                     <label>Message</label>
-                    <input class="w3-input w3-border" type="text" name="Message" required>
+                    <input class="w3-input w3-border" type="text" name="message" id="message"required>
                 </div>
                 <button id="btEnviar" type="submit" class="w3-button w3-black w3-margin-bottom"><i class="fa fa-paper-plane w3-margin-right"></i>Send Message</button>
             </form>
@@ -159,14 +183,17 @@
         <footer class="w3-container w3-padding-32 w3-dark-grey">
             <div class="w3-row-padding">
                 <div class="w3-third">
-                    <h3>FOOTER</h3>
-                    <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+                    <h3>DEVSITE</h3>
+                    <p>Queda prohibido copiar, reproducir, distribuir, publicar, transmitir, difundir, o en cualquier modo explotar cualquier parte de este servicio sin la autorización previa de su autor</p>
                     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+                </div>
+                <div class="w3-third">
+                    <p>Todos los contenidos de este Sitio (Incluyendo, pero no limitado a, texto, logotipos, contenido, fotografías, audio, botones, nombres comerciales y vídeo) están sujetos a derechos de propiedad por las leyes de Derechos de Autor y demás Leyes relativas Internacionales a DevSite y de terceros titulares de los mismos que han autorizado debidamente su inclusión.</p>
                 </div>
             </div>
         </footer>
 
-        <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></div>
+        <div class="w3-black w3-center w3-padding-24">DevSite®</div>
 
         <!-- End page content -->
     </div>
@@ -183,7 +210,7 @@
             document.getElementById("myOverlay").style.display = "none";
         }
     </script>
-
+    <script src="js/mensajeria.js"></script>
 </body>
 
 </html>

@@ -1,27 +1,26 @@
 $(document).ready(function () {
-    $('#btRegister').click(function () {
-        var datos = $('#registro').serialize();
+    $('#btEnviar').click(function () {
+        var datos = $('#msj').serialize();
         $.ajax({
             data: datos,
-            url: 'insertaRegistro.php',
+            url: 'insertaMensaje.php',
             type: 'POST',
             success: function (r) {
-                insercionRegistroExitosa(r);
+                envioExitoso(r);
             },
             error: function (r) {
-                insercionRegistroErronea(r);
+                envioFallido(r);
             }
         });
         return false;
     });
 });
-
-function insercionRegistroExitosa(TextoJson) {
+function envioExitoso(TextoJson) {
     $("#pnlMensaje").dialog();
     $("#pnlMensaje").html('<p>' + TextoJson + '</p>');
 }
 
-function insercionRegistroErronea(TextoJson) {
+function envioFallido(TextoJson) {
     $("#pnlMensaje").dialog();
     $("#pnlMensaje").html('<p>Ocurrio un error en el servidor</p>' + TextoJson.responseText);
 }
