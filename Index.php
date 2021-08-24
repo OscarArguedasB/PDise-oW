@@ -18,7 +18,7 @@
         <div class="w3-bar w3-white w3-wide w3-padding w3-card">
             <a href="#home" class="w3-bar-item w3-button"><b>DEV</b>SITE</a>
             <div class="w3-right w3-hide-small">
-                <a href="#inSesion" class="w3-bar-item w3-button">Iniciar sesion</a>
+                <a href="#" onclick="document.getElementById('iniciarsesion').style.display='block'" class="w3-bar-item w3-button">Iniciar sesion</a>
                 <a href="#" onclick="document.getElementById('registrarse').style.display='block'" class="w3-bar-item w3-button">Registrarse</a>
                 <a href="#solCon" class="w3-bar-item w3-button">Contactenos</a>
             </div>
@@ -49,60 +49,27 @@
     </div>
     </div>
     <!-- PROYECTOS -->
-    <div class="w3-content w3-padding" style="max-width:1564px">
+    <?php
+    include 'conexion.php';
+    ?>
+
+    <div class="w3-container w3-padding-32">
         <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Proyectos</h3>
-        <p>Algunas de las ideas de proyectos que ya hemos realizado.</p>
-    </div>
-    <div class="w3-row-padding">
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-display-container">
-                <div class="w3-display-topleft w3-black w3-padding">Analítica</div>
-                <img src="css/P_ANALITICA.JPG" alt="proyecto" style="width:100%">
-            </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-display-container">
-                <div class="w3-display-topleft w3-black w3-padding">Cafetería</div>
-                <img src="css/P_CANFETERIA.JPG" alt="proyecto" style="width:100%">
-            </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-display-container">
-                <div class="w3-display-topleft w3-black w3-padding">Empresa remodelaciones</div>
-                <img src="css/P_COMPAÑIA REMODELACION.JPG" alt="proyecto" style="width:100%">
-            </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-display-container">
-                <div class="w3-display-topleft w3-black w3-padding">Marketing</div>
-                <img src="css/P_MARKETIN.JPG" alt="proyecto" style="width:100%">
-            </div>
-        </div>
-    </div>
-    <div class="w3-row-padding">
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-display-container">
-                <div class="w3-display-topleft w3-black w3-padding">Renta apartamento</div>
-                <img src="css/P_RENTAAPART.JPG" alt="proyecto" style="width:99%">
-            </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-display-container">
-                <div class="w3-display-topleft w3-black w3-padding">Reserva viajes</div>
-                <img src="css/P_RESERVIAJE.JPG" alt="proyecto" style="width:99%">
-            </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-display-container">
-                <div class="w3-display-topleft w3-black w3-padding">Restaurante</div>
-                <img src="css/P_RESTA.JPG" alt="proyecto" style="width:99%">
-            </div>
-        </div>
-        <div class="w3-col l3 m6 w3-margin-bottom">
-            <div class="w3-display-container">
-                <div class="w3-display-topleft w3-black w3-padding">Menu</div>
-                <img src="css/P_MENURESTA.JPG" alt="proyecto" style="width:99%">
-            </div>
+        <div class="w3-row-padding">
+            <?php
+            ImprimeDatos();
+            function ImprimeDatos()
+            {
+                $objetoConnect = new Connect();
+                $sql = "SELECT * FROM proyecto";
+                $miQuery = $objetoConnect->ConsultaSQL($sql);
+                echo '<div class="w3-container">';
+                echo "<br>";
+                $objetoConnect->imprimeProyecto($miQuery);
+                echo "</div>";
+            }
+
+            ?>
         </div>
     </div>
     </div>
@@ -111,15 +78,26 @@
     <div class="w3-container w3-padding-32" id="solCon">
         <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Contactenos</h3>
         <p>Complete la siguiente informacion para ser contactado por uno de nuestros desarrolladores.</p>
-        <form action="/action_page.php" target="_blank">
-            <input class="w3-input w3-border" type="text" placeholder="Nombre" required name="Nombre">
-            <input class="w3-input w3-section w3-border" type="text" placeholder="Correo" required name="Correo">
-            <input class="w3-input w3-section w3-border" type="text" placeholder="Teléfono" required name="Teléfono">
-            <p>Comentanos ¿en qué podemos ayudar?</p>
-            <input class="w3-input w3-section w3-border" type="text" placeholder="Descripcion" required name="Descripcion">
-            <button class="w3-button w3-black w3-section" type="submit">
-                <i class="fa fa-paper-plane"></i>ENVIAR SOLICITUD</button>
-        </form>
+        <form method="POST" id="msj">
+                <!-- NOTA -->
+                <div class="w3-section">
+                    <label>To:</label>
+                    <input class="w3-input w3-border" type="text" id="to" name="to" value="contacto@devsite.com" readonly>
+                </div>
+                <div class="w3-section">
+                    <label>Name</label>
+                    <input class="w3-input w3-border" type="text" id="name" name="name" required>
+                </div>
+                <div class="w3-section">
+                    <label>From (email)</label>
+                    <input class="w3-input w3-border" type="text" id="from" name="from" required>
+                </div>
+                <div class="w3-section">
+                    <label>Message</label>
+                    <input class="w3-input w3-border" type="text" name="message" id="message"required>
+                </div>
+                <button id="btEnviar" type="submit" class="w3-button w3-black w3-margin-bottom"><i class="fa fa-paper-plane w3-margin-right"></i>Send Message</button>
+            </form>
     </div>
     </div>
 
@@ -143,6 +121,27 @@
                     <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Empresa" id="empresa" name="empresa"></p>
                     <div>
                         <p><button class="w3-button" id="btRegister">Registrarse</button></p>
+                    </div>
+                </form>
+                <p id="pnlMensaje" name="pnlMensaje"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Iniciar sesión -->
+    <div id="iniciarsesion" class="w3-modal">
+        <div class="w3-modal-content w3-animate-zoom">
+            <div class="w3-container w3-black">
+                <span onclick="document.getElementById('iniciarsesion').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+                <h1>Iniciar sesión</h1>
+            </div>
+            <div class="w3-container" id="formIniciarSesion">
+                <form id="iniciosesion" action="login.php" method="POST">
+                    <p>Ingrese sus datos para inicar sesión:</p>
+                    <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Email" id="email" name="email" required></p>
+                    <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña" id="password" name="password" required></p>
+                    <div>
+                        <p><button class="w3-button" id="btSesion">Ingresar</button></p>
                     </div>
                 </form>
                 <p id="pnlMensaje" name="pnlMensaje"></p>

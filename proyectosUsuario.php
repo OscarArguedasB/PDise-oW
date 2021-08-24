@@ -45,14 +45,14 @@
         $objetoConnect = new Connect();
         $sql = "SELECT acercaDe FROM usuario WHERE email='$email'";
         $miQuery = $objetoConnect->ConsultaSQL($sql);
-        return $objetoConnect->devuelveUnDato($miQuery);
+        return $objetoConnect->devuelveAcercaDe($miQuery);
     }
 
     ?>
 
     <div class="w3-top">
         <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-            <a href="#home" class="w3-bar-item w3-button"><b>DEV</b>SITE</a>
+            <a href="index.php" class="w3-bar-item w3-button"><b>DEV</b>SITE</a>
             <div class="w3-right w3-hide-small">
             </div>
         </div>
@@ -209,7 +209,7 @@
             document.getElementById("myOverlay").style.display = "none";
         }
     </script>
-    <script src="js/mensajeria.js"></script>
+    <script src="js/user.js"></script>
 </body>
 
 </html>
