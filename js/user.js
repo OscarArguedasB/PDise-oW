@@ -1,19 +1,4 @@
 $(document).ready(function () {
-    $('#btRegister').click(function () {
-        var datos = $('#registro').serialize();
-        $.ajax({
-            data: datos,
-            url: 'insertaRegistro.php',
-            type: 'POST',
-            success: function (r) {
-                insercionRegistroExitosa(r);
-            },
-            error: function (r) {
-                insercionRegistroErronea(r);
-            }
-        });
-        return false;
-    });
     $('#btEnviar').click(function () {
         var datos = $('#msj').serialize();
         $.ajax({
@@ -22,6 +7,7 @@ $(document).ready(function () {
             type: 'POST',
             success: function (r) {
                 envioExitoso(r);
+                
             },
             error: function (r) {
                 envioFallido(r);
@@ -29,7 +15,24 @@ $(document).ready(function () {
         });
         return false;
     });
+    $('#btUpdate').click(function () {
+        var datos2 = $('#updateUser').serialize();
+        $.ajax({
+            data: datos2,
+            url: 'updateUser.php',
+            type: 'POST',
+            success: function (r) {
+                updateExitoso(r);
+            },
+            error: function (r) {
+                updateFallido(r);
+            }
+        });
+        return false;
+    });
 });
+
+
 function envioExitoso(TextoJson) {
     $("#pnlMensaje").dialog();
     $("#pnlMensaje").html('<p>' + TextoJson + '</p>');
@@ -41,14 +44,16 @@ function envioFallido(TextoJson) {
     $("#pnlMensaje").html('<p>Ocurrio un error en el servidor</p>' + TextoJson.responseText);
 }
 
-function insercionRegistroExitosa(TextoJson) {
-    $("#pnlMensaje").dialog();
-    $("#pnlMensaje").html('<p>' + TextoJson + '</p>');
+function updateExitoso(TextoJson) {
+    $("#pnlUpdate").dialog();
+    $("#pnlUpdate").html('<p>' + TextoJson + '</p>');
+    document.write("Actualizacion exitosa, redirigiendo...");
+    setTimeout( function() { window.location.href = "index.php"; }, 2000 );
 }
 
-function insercionRegistroErronea(TextoJson) {
-    $("#pnlMensaje").dialog();
-    $("#pnlMensaje").html('<p>Ocurrio un error en el servidor</p>' + TextoJson.responseText);
+function updateFallido(TextoJson) {
+    $("#pnlUpdate").dialog();
+    $("#pnlUpdate").html('<p>Ocurrio un error en el servidor</p>' + TextoJson.responseText);
 }
 function LimpiaCampos(){
     $('#name').val('');
