@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    $('#btRegister').click(function() {
-        var datos=$('#registro').serialize();
+    $('#btRegister').click(function () {
+        var datos = $('#registro').serialize();
         $.ajax({
             data: datos,
             url: 'insertaRegistro.php',
