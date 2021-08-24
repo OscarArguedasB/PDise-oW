@@ -11,22 +11,26 @@
     <link rel="icon" href="css/ICONO.JPG">
     <script src="js/jquery-3.5.1.js"></script>
     <script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Raleway", sans-serif
+        }
+    </style>
 </head>
-<style>
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: "Raleway", sans-serif
-    }
-</style>
 
-<body class="w3-light-grey w3-content" style="max-width:1600px">
+
+
+<body class="w3-light-grey" style="max-width:1600px">
     <?php
 
+    session_start();
+    
     include 'conexion.php';
     $email =   $_REQUEST['email'];
     $name = usuario($email);
@@ -45,18 +49,19 @@
         $objetoConnect = new Connect();
         $sql = "SELECT acercaDe FROM usuario WHERE email='$email'";
         $miQuery = $objetoConnect->ConsultaSQL($sql);
-        return $objetoConnect->devuelveUnDato($miQuery);
+        return $objetoConnect->devuelveAcercaDe($miQuery);
     }
 
     ?>
 
     <div class="w3-top">
         <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-            <a href="#home" class="w3-bar-item w3-button"><b>DEV</b>SITE</a>
+            <a href="index.php" class="w3-bar-item w3-button"><b>DEV</b>SITE</a>
             <div class="w3-right w3-hide-small">
+                <a href="archivos.php?email=<?php echo $email ?>" class="w3-bar-item w3-button">Subir archivo</a>
                 <a href="#" onclick="document.getElementById('msj').style.display='block'" id="verMsj" class="w3-bar-item w3-button">Mensajes</a>
                 <a href="#" onclick="document.getElementById('ajustes').style.display='block'" class="w3-bar-item w3-button">Ajustes</a>
-
+                <a href="logout.php" id="csesion" class="w3-bar-item w3-button">Cerrar Sesion</a>
             </div>
         </div>
     </div>
@@ -140,14 +145,14 @@
                         <p>Complete todos los espacios para actualizar sus datos:</p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Nombre" id="nombre" name="nombre" required></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Apellidos" id="apellidos" name="apellidos"></p>
-                        <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Email" id="email" name="email" style="display:none" value="<?php echo $email?>" required></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Email" id="email" name="email" style="display:none" value="<?php echo $email ?>" required></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Email" id="emailN" name="emailN" required></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña Antigua" id="passwordO" name="passwordO" required></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña" id="passwordN" name="passwordN" required></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Empresa" id="empresa" name="empresa"></p>
                         <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Acerca de" id="acercaDe" name="acercaDe"></p>
                         <p><button class="w3-button" id="btUpdate">Actualizar Datos</button></p>
-                        
+
                     </form>
                     <p id="pnlUpdate" name="pnlUpdate"></p>
                 </div>
@@ -158,7 +163,7 @@
         <div id="msj" class="w3-modal">
             <div class="w3-modal-content w3-animate-zoom">
                 <div class="w3-container w3-black">
-                    <span onclick="document.getElementById('msj').style.display='none'"  class="w3-button w3-display-topright w3-large">x</span>
+                    <span onclick="document.getElementById('msj').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
                     <h1>Tus Mensajes</h1>
                 </div>
                 <div class="w3-container" id="mensajeria">

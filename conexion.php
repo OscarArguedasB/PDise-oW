@@ -145,6 +145,13 @@ class Connect
         }
         return $resultado;
     }
+    function devuelveAcercaDe($miQuery)
+    {
+        while ($row = $miQuery->fetch_assoc()) {
+            $resultado = $row["acercaDe"];
+        }
+        return $resultado;
+    }
 
     function imprimeTabla($miQuery)
     {
@@ -166,8 +173,8 @@ class Connect
                 echo "<th scope='row'>" . "<img src=" . $imagen . " " . 'style="width:90px" class="w3-hover-opacity">' . "</td> ";
                 echo "<td>" . $row["nombre"] .      "</td> ";
                 echo "<td>" . $row["descripcion"] .      "</td> ";
-                echo "<td>" . "<a href=" .  $row["proyecto"] .
-                    "'>Descargar</a>" . "</td>";
+                echo "<td>" . "<a href=archivos/" .  $row["proyecto"] .
+                    " download=". $row["proyecto"] .">Descargar</a>" . "</td>";
                 echo "</tr>";
             }
         } else {
@@ -179,7 +186,37 @@ class Connect
         echo "</table>";
     }
 
-    
+    function imprimeProyecto($miQuery){
+        echo "<table>";
+        echo "<tr>";
+        echo " <th scope='col'> Imagen  </th>";
+        echo " <th scope='col'> Nombre</th>";
+        echo " <th scope='col'> Descripcion  </th>";
+        echo " <th scope='col'> Perfil </th>";
+        echo "</tr>";
+        if ($miQuery->num_rows > 0) {
+            while ($row = $miQuery->fetch_assoc()) {
+                if ($row["imagen"] == '') {
+                    $imagen = "proyecto/blueprint.png";
+                } else {
+                    $imagen = $row["imagen"];
+                }
+                echo "<tr>";
+                echo "<th scope='row'>" . "<img src=" . $imagen . " " . 'style="width:90px" class="w3-hover-opacity">' . "</td> ";
+                echo "<td>" . $row["nombre"] .      "</td> ";
+                echo "<td>" . $row["descripcion"] .      "</td> ";
+                echo "<td>" . "<a href=" . "proyectosUsuario.php?email=".  $row["usuario_email"] .
+                    ">Ver</a>" . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr>";
+            echo " <th> El usuario no tiene proyectos </th>";
+            echo "</tr>";
+            //    echo "0 Filas";
+        }
+        echo "</table>";
+    }
 
     function printMSJ($miQuery)
     {
@@ -241,6 +278,26 @@ class Connect
         $conexion->close();
     }
 
+    
+    function proyectos($parchivo, $pdescripcion, $pemail, $pnombre1,$pnombre)
+    {
+        $response = "";
+        $conexion = $this->Conecta();
+        $stmt = $conexion->prepare("INSERT INTO proyecto (nombre,descripcion,usuario_email, imagen, proyecto) VALUES (?,?,?,?,?)");
+        $stmt->bind_param("sssss", $archivo, $descripcion, $email, $nombre1,$nombre);
+
+        $archivo = $parchivo;
+        $descripcion = $pdescripcion;
+        $email = $pemail;
+        $nombre1 = $pnombre1;
+        $nombre = $pnombre;
+
+        $stmt->execute();
+        $response = "Archivo agregado";
+        return $response;
+        $stmt->close();
+        $conexion->close();
+    }
     
     function UpdUser($pnombre, $papellidos, $pemail, $pemailN, $ppasswordO, $ppasswordN, $pempresa, $pacercaDe)
     {

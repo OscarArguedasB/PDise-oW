@@ -7,6 +7,7 @@ $(document).ready(function () {
             type: 'POST',
             success: function (r) {
                 envioExitoso(r);
+                
             },
             error: function (r) {
                 envioFallido(r);
@@ -35,6 +36,7 @@ $(document).ready(function () {
 function envioExitoso(TextoJson) {
     $("#pnlMensaje").dialog();
     $("#pnlMensaje").html('<p>' + TextoJson + '</p>');
+    LimpiaCampos();
 }
 
 function envioFallido(TextoJson) {
@@ -52,4 +54,9 @@ function updateExitoso(TextoJson) {
 function updateFallido(TextoJson) {
     $("#pnlUpdate").dialog();
     $("#pnlUpdate").html('<p>Ocurrio un error en el servidor</p>' + TextoJson.responseText);
+}
+function LimpiaCampos(){
+    $('#name').val('');
+    $('#from').val('');
+    $('#message').val('');
 }
