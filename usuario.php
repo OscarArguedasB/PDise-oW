@@ -54,51 +54,14 @@
         <div class="w3-bar w3-white w3-wide w3-padding w3-card">
             <a href="#home" class="w3-bar-item w3-button"><b>DEV</b>SITE</a>
             <div class="w3-right w3-hide-small">
-                <a href="#" onclick="document.getElementById('msj').style.display='block'" class="w3-bar-item w3-button">Mensajes</a>
+                <a href="#" onclick="document.getElementById('msj').style.display='block'" id="verMsj" class="w3-bar-item w3-button">Mensajes</a>
                 <a href="#" onclick="document.getElementById('ajustes').style.display='block'" class="w3-bar-item w3-button">Ajustes</a>
 
             </div>
         </div>
     </div>
 
-    <!-- Ajustes -->
-    <div id="ajustes" class="w3-modal">
-        <div class="w3-modal-content w3-animate-zoom">
-            <div class="w3-container w3-black">
-                <span onclick="document.getElementById('ajustes').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
-                <h1>Registrarse</h1>
-            </div>
-            <div class="w3-container" id="formRegistro">
-                <form id="ajustes" method="POST">
-                    <p>Complete todos los espacios para actualizar sus datos:</p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Nombre" id="nombre" name="nombre" required></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Apellidos" id="apellidos" name="apellidos"></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Email" id="email" name="email" required></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña" id="passwordO" name="password" required></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña" id="passwordN" name="password" required></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Empresa" id="empresa" name="empresa"></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Acerca de" id="acercaDe" name="acercaDe"></p>
-                    <div>
-                        <p><button class="w3-button" id="btUpdate">Actualizar Datos</button></p>
-                    </div>
-                </form>
-                <p id="pnlUpdate" name="pnlUpdate"></p>
-            </div>
-        </div>
-    </div>
 
-    <!-- Mensajes -->
-    <div id="msj" class="w3-modal">
-        <div class="w3-modal-content w3-animate-zoom">
-            <div class="w3-container w3-black">
-                <span onclick="document.getElementById('msj').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
-                <h1>Actualizar perfil</h1>
-            </div>
-            <div class="w3-container" id="mensajeria">
-                
-            </div>
-        </div>
-    </div>
     <!-- Sidebar/menu -->
     <br>
     <br>
@@ -165,6 +128,57 @@
         </div>
 
 
+        <!-- Ajustes -->
+        <div id="ajustes" class="w3-modal">
+            <div class="w3-modal-content w3-animate-zoom">
+                <div class="w3-container w3-black">
+                    <span onclick="document.getElementById('ajustes').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+                    <h1>Actualizar sus datos</h1>
+                </div>
+                <div class="w3-container" id="formUpdate">
+                    <form id="updateUser" method="POST">
+                        <p>Complete todos los espacios para actualizar sus datos:</p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Nombre" id="nombre" name="nombre" required></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Apellidos" id="apellidos" name="apellidos"></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Email" id="email" name="email" style="display:none" value="<?php echo $email?>" required></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Email" id="emailN" name="emailN" required></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña Antigua" id="passwordO" name="passwordO" required></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña" id="passwordN" name="passwordN" required></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Empresa" id="empresa" name="empresa"></p>
+                        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Acerca de" id="acercaDe" name="acercaDe"></p>
+                        <p><button class="w3-button" id="btUpdate">Actualizar Datos</button></p>
+                        
+                    </form>
+                    <p id="pnlUpdate" name="pnlUpdate"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensajes -->
+        <div id="msj" class="w3-modal">
+            <div class="w3-modal-content w3-animate-zoom">
+                <div class="w3-container w3-black">
+                    <span onclick="document.getElementById('msj').style.display='none'"  class="w3-button w3-display-topright w3-large">x</span>
+                    <h1>Tus Mensajes</h1>
+                </div>
+                <div class="w3-container" id="mensajeria">
+                    <?php
+                    GetMSJ($email);
+
+                    function GetMSJ($email)
+                    {
+                        $objetoConnect = new Connect();
+                        $sql = "SELECT * FROM mensajes where usuario_email='$email'";
+                        $miQuery = $objetoConnect->ConsultaSQL($sql);
+                        echo '<div class="w3-container">';
+                        echo "<br>";
+                        $objetoConnect->printMSJ($miQuery);
+                        echo "</div>";
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
 
         <!-- About me section -->
         <div class="w3-container w3-padding-large" style="margin-bottom:32px">

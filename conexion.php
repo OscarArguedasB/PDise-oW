@@ -179,6 +179,35 @@ class Connect
         echo "</table>";
     }
 
+    
+
+    function printMSJ($miQuery)
+    {
+        echo "<table>";
+        echo "<tr>";
+        echo " <th scope='col'> Para:   </th>";
+        echo " <th scope='col'> De: </th>";
+        echo " <th scope='col'> Email de contacto  </th>";
+        echo " <th scope='col'> Mensaje </th>";
+        echo "</tr>";
+        if ($miQuery->num_rows > 0) {
+            while ($row = $miQuery->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row["usuario_email"] .      "</td> ";
+                echo "<td>" . $row["de"] .      "</td> ";
+                echo "<td>" . $row["emailDe"] .      "</td> ";
+                echo "<td>" . $row["msj"] .      "</td> ";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr>";
+            echo " <th> No tiene mensajes </th>";
+            echo "</tr>";
+            //    echo "0 Filas";
+        }
+        echo "</table>";
+    }
+
     function imprimeTelefonos($miQuery)
     {
         if ($miQuery->num_rows > 0) {
@@ -207,6 +236,30 @@ class Connect
 
         $stmt->execute();
         $response = "Registro exitoso";
+        return $response;
+        $stmt->close();
+        $conexion->close();
+    }
+
+    
+    function UpdUser($pnombre, $papellidos, $pemail, $pemailN, $ppasswordO, $ppasswordN, $pempresa, $pacercaDe)
+    {
+        $response = "";
+        $conexion = $this->Conecta();
+        $stmt = $conexion->prepare("UPDATE usuario set email=?,password=?,nombre=?, apellidos=?,empresa=?,acercaDe=? where password=? and email=?");
+        $stmt->bind_param("ssssssss", $emailN, $passwordN, $nombre, $apellidos, $empresa, $acercaDe,$passwordO,$email);
+
+        $email = $pemail;
+        $emailN=$pemailN;
+        $passwordO = $ppasswordO;
+        $passwordN = $ppasswordN;
+        $nombre = $pnombre;
+        $apellidos = $papellidos;
+        $empresa = $pempresa;
+        $acercaDe = $pacercaDe;
+
+        $stmt->execute();
+        $response = "Update exitoso";
         return $response;
         $stmt->close();
         $conexion->close();
