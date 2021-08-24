@@ -54,51 +54,10 @@
         <div class="w3-bar w3-white w3-wide w3-padding w3-card">
             <a href="#home" class="w3-bar-item w3-button"><b>DEV</b>SITE</a>
             <div class="w3-right w3-hide-small">
-                <a href="#" onclick="document.getElementById('msj').style.display='block'" class="w3-bar-item w3-button">Mensajes</a>
-                <a href="#" onclick="document.getElementById('ajustes').style.display='block'" class="w3-bar-item w3-button">Ajustes</a>
-
             </div>
         </div>
     </div>
 
-    <!-- Ajustes -->
-    <div id="ajustes" class="w3-modal">
-        <div class="w3-modal-content w3-animate-zoom">
-            <div class="w3-container w3-black">
-                <span onclick="document.getElementById('ajustes').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
-                <h1>Registrarse</h1>
-            </div>
-            <div class="w3-container" id="formRegistro">
-                <form id="ajustes" method="POST">
-                    <p>Complete todos los espacios para actualizar sus datos:</p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Nombre" id="nombre" name="nombre" required></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Apellidos" id="apellidos" name="apellidos"></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="email" placeholder="Email" id="email" name="email" required></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña" id="passwordO" name="password" required></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="password" placeholder="Contraseña" id="passwordN" name="password" required></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Empresa" id="empresa" name="empresa"></p>
-                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Acerca de" id="acercaDe" name="acercaDe"></p>
-                    <div>
-                        <p><button class="w3-button" id="btUpdate">Actualizar Datos</button></p>
-                    </div>
-                </form>
-                <p id="pnlUpdate" name="pnlUpdate"></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mensajes -->
-    <div id="msj" class="w3-modal">
-        <div class="w3-modal-content w3-animate-zoom">
-            <div class="w3-container w3-black">
-                <span onclick="document.getElementById('msj').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
-                <h1>Actualizar perfil</h1>
-            </div>
-            <div class="w3-container" id="mensajeria">
-                
-            </div>
-        </div>
-    </div>
     <!-- Sidebar/menu -->
     <br>
     <br>
@@ -183,7 +142,7 @@
                 </div>
                 <div class="w3-third w3-dark-grey">
                     <p><i class="fa fa-phone w3-xxlarge w3-text-light-grey"></i></p>
-                    <?php
+                    <?php 
                     telefonos($email);
 
                     function telefonos($email)
@@ -196,6 +155,27 @@
                     ?>
                 </div>
             </div>
+            <hr class="w3-opacity">
+            <form method="POST" id="msj">
+                <!-- NOTA -->
+                <div class="w3-section">
+                    <label>To:</label>
+                    <input class="w3-input w3-border" type="text" id="to" name="to" value="<?php echo $email ?>" readonly>
+                </div>
+                <div class="w3-section">
+                    <label>Name</label>
+                    <input class="w3-input w3-border" type="text" id="name" name="name" required>
+                </div>
+                <div class="w3-section">
+                    <label>From (email)</label>
+                    <input class="w3-input w3-border" type="text" id="from" name="from" required>
+                </div>
+                <div class="w3-section">
+                    <label>Message</label>
+                    <input class="w3-input w3-border" type="text" name="message" id="message"required>
+                </div>
+                <button id="btEnviar" type="submit" class="w3-button w3-black w3-margin-bottom"><i class="fa fa-paper-plane w3-margin-right"></i>Send Message</button>
+            </form>
         </div>
 
         <!-- Footer -->
@@ -229,7 +209,7 @@
             document.getElementById("myOverlay").style.display = "none";
         }
     </script>
-    <script src="js/user.js"></script>
+    <script src="js/mensajeria.js"></script>
 </body>
 
 </html>
